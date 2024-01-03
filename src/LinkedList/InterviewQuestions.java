@@ -1,6 +1,7 @@
 package LinkedList;
 
 import java.awt.*;
+import java.util.List;
 
 public class InterviewQuestions {
 
@@ -148,55 +149,19 @@ public class InterviewQuestions {
         }
 
         // skip the first left-1 nodes
-        ListNode current = head;
-        ListNode prev = null;
-        for (int i = 0; current != null && i < left - 1; i++) {
-            prev = current;
-            current = current.next;
-        }
-
-        ListNode last = prev;
-        ListNode newEnd = current;
-
-        // reverse between left and right
-        ListNode next = current.next;
-        for (int i = 0; current != null && i < right - left + 1; i++) {
-            current.next = prev;
-            prev = current;
-            current = next;
-            if (next != null) {
-                next = next.next;
+            ListNode current = head;
+            ListNode prev = null;
+            for (int i = 0; current != null && i < left - 1; i++) {
+                prev = current;
+                current = current.next;
             }
-        }
 
-        if (last != null) {
-            last.next = prev;
-        } else {
-            head = prev;
-        }
-
-        newEnd.next = current;
-        return head;
-    }
-
-
-    // google, amazon, facebook, microsoft: https://leetcode.com/problems/reverse-nodes-in-k-group/
-    public ListNode reverseKGroup(ListNode head, int k) {
-        if (k <= 1 || head == null) {
-            return head;
-        }
-
-        ListNode current = head;
-        ListNode prev = null;
-
-        int length = getLength(head);
-        int count = length / k;
-        while (count > 0) {
             ListNode last = prev;
             ListNode newEnd = current;
 
+            // reverse between left and right
             ListNode next = current.next;
-            for (int i = 0; current != null && i < k; i++) {
+            for (int i = 0; current != null && i < right - left + 1; i++) {
                 current.next = prev;
                 prev = current;
                 current = next;
@@ -212,9 +177,45 @@ public class InterviewQuestions {
             }
 
             newEnd.next = current;
+            return head;
+    }
+
+
+    // google, amazon, facebook, microsoft: https://leetcode.com/problems/reverse-nodes-in-k-group/
+    public ListNode reverseKGroup(ListNode head, int k) {
+       if(k <= 1 || head == null){
+           return head;
+       }
+
+        ListNode current = head;
+        ListNode prev = null;
+
+        while(true){
+
+            ListNode last = prev;
+            ListNode newEnd = current;
+
+            // reverse between left and right
+            ListNode next = current.next;
+            for (int i = 0; current != null && i <k; i++) {
+                current.next = prev;
+                prev = current;
+                current = next;
+                if (next != null) {
+                    next = next.next;
+                }
+            }
+            if (last != null) {
+                last.next = prev;
+            } else {
+                head = prev;
+            }
+            newEnd.next = current;
+            if(current == null){
+                break;
+            }
 
             prev = newEnd;
-            count--;
         }
         return head;
     }
@@ -338,6 +339,30 @@ public class InterviewQuestions {
         }
         head = newLast.next;
         newLast.next = null;
+
+        return head;
+    }
+
+    public ListNode rotateList(ListNode head, int k){
+        if(k < 1){
+            return head;
+        }
+        //finding the length of the list and getting the tail
+        int length = 1;
+        ListNode tmp_tail = head;
+        while(tmp_tail.next != null){
+            tmp_tail = tmp_tail.next;
+            length++;
+        }
+        k = k % length;
+        tmp_tail.next = head;
+        int sublength = length - k;
+        ListNode newTail = head;
+        for(int i=0; i<sublength-1; i++){
+            newTail = newTail.next;
+        }
+        head = newTail.next;
+        newTail.next = null;
 
         return head;
     }
