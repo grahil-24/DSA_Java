@@ -17,6 +17,5 @@ public class InbuiltQueue {
         System.out.println(queue.remove());
 
         Deque<Integer> deque = new ArrayDeque<>();
-
     }
 }
