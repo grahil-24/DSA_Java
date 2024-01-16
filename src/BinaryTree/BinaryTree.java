@@ -1,6 +1,6 @@
 package BinaryTree;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class BinaryTree {
 
@@ -36,6 +36,104 @@ public class BinaryTree {
             populate(scanner, root.right);
         }
 
+    }
+
+    public void bfs(){
+        Node tmp_root = root;
+        Queue<Node> queue = new LinkedList<>();
+        if(tmp_root == null){
+            System.out.println("Empty tree!");
+            return;
+        }
+        queue.add(tmp_root);
+        System.out.println(tmp_root.value);
+        while(!queue.isEmpty()){
+            Node node = queue.remove();
+
+            if(node.left != null){
+                queue.add(node.left);
+                System.out.println(node.left.value);
+            }
+            if(node.right != null){
+                queue.add(node.right);
+                System.out.println(node.right.value);
+            }
+        }
+    }
+
+    public void bfsTarget(int target){
+        Node tmp_root = root;
+        Queue<Node> queue = new LinkedList<>();
+        HashMap<Integer, List<Integer>> map = new HashMap<>();
+        boolean rootFound = false;
+        if(tmp_root == null){
+            System.out.println("Empty tree!");
+            return;
+        }
+        queue.add(tmp_root);
+        while(!queue.isEmpty()){
+            Node node = queue.remove();
+            map.put(node.value, new ArrayList<>());
+            if(node.left != null){
+                queue.add(node.left);
+                map.get(node.value).add(node.left.value);
+                if(node.left.value == target){
+                    break;
+                }
+            }
+            if(node.right != null){
+                queue.add(node.right);
+                map.get(node.value).add(node.right.value);
+                if(node.right.value == target){
+                    break;
+                }
+            }
+        }
+        if(queue.isEmpty()){
+            System.out.println("Element not found");
+            return;
+        }
+        System.out.print(target + "->");
+        while(!rootFound){
+            for(int i: map.keySet()){
+                if(map.get(i).contains(target)){
+                    System.out.print(i+"->");
+                    target = i;
+                    break;
+                }
+                if(target == root.value){
+                    rootFound = true;
+                    break;
+                }
+
+            }
+        }
+
+    }
+
+    public void dfs(int target){
+        Stack<Node> path = new Stack<>();
+        dfs(root, path, target);
+    }
+
+    private void dfs(Node node, Stack<Node> path, int target){
+        if(node == null){
+            return;
+        }
+
+        if(node.value == target){
+            System.out.print(node.value + "->");
+            while(!path.empty()){
+                System.out.print(path.pop().value + "->");
+            }
+            System.out.println();
+            System.exit(1);
+        }
+
+        path.push(node);
+        dfs(node.left, path, target);
+        dfs(node.right, path, target);
+        path.pop();
     }
 
     public void display(){
@@ -76,7 +174,8 @@ public class BinaryTree {
         Scanner scanner = new Scanner(System.in);
         BinaryTree tree  = new BinaryTree();
         tree.populate(scanner);
-        tree.display();
+        tree.bfsTarget(12);
+
     }
 }
 
