@@ -108,6 +108,9 @@ public class BinaryTree {
 
             }
         }
+    }
+
+    public void dls(int target){
 
     }
 
