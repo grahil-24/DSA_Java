@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Graph {
 
-    private ArrayList<ArrayList<Integer>> adjacencyList;
+    private final ArrayList<ArrayList<Integer>> adjacencyList;
     int numOfVertices;
 
     public Graph(int numOfVertices){
@@ -28,19 +28,26 @@ public class Graph {
     }
 
     public void dfs(int source, int goal){
+        ArrayList<Integer> path = new ArrayList<>();
         ArrayList<Integer> visited = new ArrayList<>(Collections.nCopies(numOfVertices+1, 0));
-        Stack<Integer> path = new Stack<>();
-        boolean ans = dfs(source, goal, visited, path);
-        if(ans){
-            System.out.println(path.toString());
+        if(dfs(source, goal,visited, path)){
+            System.out.println("Traversing order: ");
+            for(int num: path){
+                System.out.print(num+"->");
+            }
+            printFinalPath(path);
         }else{
-            System.out.println("Goal node not found!");
+            System.out.println("Goal node not found in tree");
+            System.out.println("Traversing order: ");
+            for(int num: path){
+                System.out.print(num+"->");
+            }
         }
     }
 
-    public boolean dfs(int source, int goal, ArrayList<Integer> visited, Stack<Integer> path){
+    public boolean dfs(int source, int goal, ArrayList<Integer> visited, ArrayList<Integer> path){
         visited.set(source, 1);
-        System.out.print(source+"->");
+        path.add(source);
         if(source == goal){
             return true;
         }
@@ -56,16 +63,33 @@ public class Graph {
     }
 
     public void bfs(int source, int goal){
+        ArrayList<Integer> path = new ArrayList<>();
+        if(bfs(source ,goal, path)){
+            System.out.println("Traversing order: ");
+            for(int num: path){
+                System.out.print(num + "->");
+            }
+            printFinalPath(path);
+        }else{
+            System.out.println("Goal node not found in tree");
+            System.out.println("Traversing order: ");
+            for(int num: path){
+                System.out.print(num+"->");
+            }
+        }
+    }
+
+    public boolean bfs(int source, int goal, ArrayList<Integer> path){
         Queue<Integer> queue = new LinkedList<>();
         ArrayList<Integer> visited = new ArrayList<>(Collections.nCopies(numOfVertices+1, 0));
         queue.add(source);
-        int currentNode = source;
+        int currentNode;
         visited.set(source, 1);
         while(!queue.isEmpty()){
             currentNode = queue.remove();
-            System.out.print(currentNode+"->");
+            path.add(currentNode);
             if(currentNode == goal){
-                return;
+                return true;
             }
             ArrayList<Integer> neighbours = adjacencyList.get(currentNode);
             for(int num: neighbours){
@@ -76,27 +100,37 @@ public class Graph {
                     queue.add(num);
                 }
             }
-
         }
-        System.out.println();
-        System.out.println("Goal node was not found in the tree!");
+        return false;
+    }
+
+    public void printFinalPath(ArrayList<Integer> path){
+        System.out.println("\nFinal Path: ");
+        int i = path.size()-1;
+        while(i-1 >=0){
+            if(!adjacencyList.get(path.get(i-1)).contains(path.get(i))){
+                path.remove(i-1);
+            }
+            i--;
+        }
+        for(int num: path){
+            System.out.print(num+"->");
+        }
     }
 
     public static void main(String[] args) {
         Graph graph = new Graph(10);
 
-        // Add edges
         graph.addEdge(1, 8);
         graph.addEdge(1, 5);
         graph.addEdge(1, 2);
-        graph.addEdge(2, 9);
-        graph.addEdge(8, 4);
         graph.addEdge(8, 6);
+        graph.addEdge(8, 4);
         graph.addEdge(8, 3);
         graph.addEdge(6, 10);
         graph.addEdge(6, 7);
+        graph.addEdge(2, 9);
 
-        // Print the adjacency list
-        graph.dfs(1, 3);
+        graph.dfs(1, 9);
     }
 }

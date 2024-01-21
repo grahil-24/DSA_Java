@@ -8,13 +8,53 @@ public class BinaryTree {
     public BinaryTree(){
 
     }
-
     public void populate(Scanner scanner){
         System.out.println("Enter value for root node: ");
         int val = scanner.nextInt();
         root = new Node(val);
         populate(scanner, root);
     }
+
+    public void preorderTraversal(){
+        preorderTraversal(root);
+    }
+
+    public void preorderTraversal(Node node){
+        if(node == null){
+            return;
+        }
+        System.out.println(node.value);
+        preorderTraversal(node.left);
+        preorderTraversal(node.right);
+    }
+
+    public void postorderTraversal(){
+        postorderTraversal(root);
+    }
+
+    public void postorderTraversal(Node node){
+        if(node == null){
+            return;
+        }
+        postorderTraversal(node.left);
+        postorderTraversal(node.right);
+        System.out.println(node.value);
+    }
+
+    public void inorderTraversal(){
+        inorderTraversal(root);
+    }
+
+    public void inorderTraversal(Node node){
+        if(node == null){
+            return;
+        }
+        inorderTraversal(node.left);
+        System.out.println(node.value);
+        inorderTraversal(node.right);
+    }
+
+
 
     public void populate(Scanner scanner, Node root){
         System.out.println("Do you want to create a left child for: "+root.value);
