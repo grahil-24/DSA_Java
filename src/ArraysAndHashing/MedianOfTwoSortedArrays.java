@@ -44,23 +44,6 @@ public class MedianOfTwoSortedArrays {
         return res;
     }
 
-    public static double findMedianSortedArrays2(int[] nums1, int[] nums2) {
-        double res = 0;
-        int length1 = nums1.length;
-        int length2 = nums2.length;
-        int length3 = length1 + length2;
-        int i = 0;
-        int j = 0;
-        int counter = 0;
-        if(length3 % 2 == 0){
-            int mid = (length3 / 2) - 1;
-        }else{
-            int mid = length3 / 2;
-        }
-
-
-
-    }
 
     public static void main(String[] args) {
 
