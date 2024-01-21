@@ -49,7 +49,7 @@ public class MergeSort {
 
     public static void main(String[] args) {
 
-        int[] arr = {5, 4, 3, 2, 1};
+        int[] arr = {-1, 0, 1, 2, -1, -4};
         int[] arr2 = MergeSort.mergeSort(arr);
         System.out.println(Arrays.toString(arr2));
     }
