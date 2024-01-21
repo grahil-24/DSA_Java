@@ -4,12 +4,12 @@ import java.util.LinkedList;
 import java.util.Stack;
 
 class Pair{
+    int key;
     int val;
-    int min;
 
-    Pair(int val, int min){
+    Pair(int key, int val){
+        this.key = key;
         this.val = val;
-        this.min = min;
     }
 }
 
@@ -25,7 +25,7 @@ public class MinStack {
         if(stack.empty()){
             stack.push(new Pair(val, val));
         }else{
-            int prevMin = stack.peek().min;
+            int prevMin = stack.peek().key;
             if(val < prevMin){
                 stack.push(new Pair(val, val));
             }else{
@@ -43,7 +43,7 @@ public class MinStack {
     }
 
     public int getMin() {
-        return stack.peek().min;
+        return stack.peek().val;
     }
 
     public static void main(String[] args) {
