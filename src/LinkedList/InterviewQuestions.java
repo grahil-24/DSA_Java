@@ -59,6 +59,7 @@ public class InterviewQuestions {
             }
         }
 
+
         if (length == 0) {
             return null;
         }
@@ -141,6 +142,9 @@ public class InterviewQuestions {
         }
         return prev;
     }
+
+
+
 
     // Google, Microsoft, Facebook: https://leetcode.com/problems/reverse-linked-list-ii/
     public ListNode reverseBetween(ListNode head, int left, int right) {

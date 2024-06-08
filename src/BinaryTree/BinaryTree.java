@@ -4,6 +4,8 @@ import java.util.*;
 
 public class BinaryTree {
 
+    static int index = 0;
+
     private Node root;
     public BinaryTree(){
 
@@ -60,7 +62,7 @@ public class BinaryTree {
         System.out.println("Do you want to create a left child for: "+root.value);
         boolean left = scanner.nextBoolean();
         if(left){
-            System.out.println("Enter the value for the left child of "+root.value);
+            System.out.println(STR."Enter the value for the left child of \{root.value}");
             int value = scanner.nextInt();
             Node leftChild = new Node(value);
             root.left = leftChild;
@@ -200,8 +202,50 @@ public class BinaryTree {
         display(node.left, level+1);
     }
 
+    public Node buildTree(int[] preorder, int[] inorder) {
+        if(preorder.length == 0){
+            return null;
+        }
 
+        int root = preorder[0];
+        int index = 0;
+        Node root_node = new Node(root);
+        for(int i = 0; i<inorder.length; i++){
+            if(root == inorder[i]){
+                index = i;
+                break;
+            }
+        }
+        root_node.left = buildTree(Arrays.copyOfRange(preorder, 1, index+1), Arrays.copyOfRange(inorder, 0, index));
+        root_node.right = buildTree(Arrays.copyOfRange(preorder, index+1, preorder.length), Arrays.copyOfRange(inorder, index+1, inorder.length));
+        return root_node;
+    }
 
+    public String serialize(Node root) {
+        if(root == null){
+            return ".";
+        }
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(root.value);
+        stringBuilder.append(serialize(root.left));
+        stringBuilder.append(serialize(root.right));
+        return stringBuilder.toString();
+    }
+
+    // Decodes your encoded data to tree.
+    public Node deserialize(String data) {
+        if (data == null || data.isEmpty() || index >= data.length() || data.charAt(index) == '.') {
+            index++;
+            return null;
+        }
+
+        Node node = new Node(data.charAt(index)-'0');
+        index++;
+        node.left = deserialize(data);
+        node.right = deserialize(data);
+        return node;
+    }
     private static class Node{
         int value;
         Node left;
@@ -216,8 +260,7 @@ public class BinaryTree {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         BinaryTree tree  = new BinaryTree();
-        tree.populate(scanner);
-        tree.bfsTarget(12);
+        tree.root = tree.deserialize("1..");
 
     }
 }

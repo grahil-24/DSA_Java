@@ -7,6 +7,9 @@ public class ReversedLinkedList {
     Node head;
     Node tail;
 
+
+
+
     public void revereseList(Node node){
         if(node.next != null){
             head = tail;

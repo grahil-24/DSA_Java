@@ -1,5 +1,7 @@
 package Heap;
 
+import OOP.Interface.A;
+
 import java.util.ArrayList;
 
 class Heap<T extends Comparable<T>> {
@@ -78,10 +80,22 @@ class Heap<T extends Comparable<T>> {
     }
 
     public ArrayList<T> heapSort() throws Exception {
-        ArrayList<T> data = new ArrayList<>();
-        while(!list.isEmpty()) {
-            data.add(this.remove());
+        ArrayList<T> list = new ArrayList<>();
+
+        while(!this.list.isEmpty()){
+            list.add(this.remove());
         }
-        return data;
+
+        return list;
+    }
+
+    public static void main(String[] args) throws Exception {
+        Heap<Integer> heap = new Heap<Integer>();
+        heap.insert(34);
+        heap.insert(45);
+        heap.insert(22);
+        heap.insert(89);
+        heap.insert(76);
+        System.out.println(heap.heapSort());
     }
 }

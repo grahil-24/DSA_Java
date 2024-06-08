@@ -1,5 +1,9 @@
 package BinarySearchTree;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
 public class BinarySearchTree {
 
 
@@ -86,9 +90,28 @@ public class BinarySearchTree {
         }
     }
 
+    public int kthSmallest(Node root, int k){
+        List<Integer> result = new ArrayList<>();
+        Stack<Node> stack = new Stack<>();
+        Node current = root;
+        int count = 0;
+        while((!stack.isEmpty() || current != null) && count < k){
+            while(current != null){
+                stack.push(current);
+                current = current.leftChild;
+            }
+            Node  node = stack.pop();
+            result.add(current.value);
+            count++;
+            current = current.rightChild;
+        }
+
+        return result.get(k-1);
+    }
+
     public static class Node{
         int value;
-        int height;
+        int     height;
         Node rightChild;
         Node leftChild;
 

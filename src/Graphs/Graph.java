@@ -62,6 +62,59 @@ public class Graph {
         return false;
     }
 
+    public void dls(int source, int goal, int depth){
+        ArrayList<Integer> path = new ArrayList<>();
+        ArrayList<Integer> visited = new ArrayList<>(Collections.nCopies(numOfVertices+1, 0));
+        if(dls(source, goal,visited, path, 0, depth)){
+            System.out.println("Traversing order: ");
+            for(int num: path){
+                System.out.print(num+"->");
+            }
+            printFinalPath(path);
+        }else{
+            System.out.println("Goal node not found in tree");
+            System.out.println("Traversing order: ");
+            for(int num: path){
+                System.out.print(num+"->");
+            }
+        }
+    }
+
+    public boolean dls(int source, int goal, ArrayList<Integer> visited, ArrayList<Integer> path, int depth, int limit){
+        visited.set(source, 1);
+        path.add(source);
+        if(source == goal){
+            return true;
+        }
+        ArrayList<Integer> neighbours = adjacencyList.get(source);
+        for(int num: neighbours){
+            if(visited.get(num)!= 1 && depth < limit){
+                if (dls(num, goal, visited, path, depth+1, limit)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void iterativeDeepeningSearch(int source, int goal, int maxDepth){
+        boolean goalReached = false;
+        int depth = 0;
+        ArrayList<Integer> visited;
+        ArrayList<Integer> path = null;
+        while(!goalReached && depth < maxDepth){
+            visited = new ArrayList<>(Collections.nCopies(numOfVertices+1, 0));
+            path = new ArrayList<>();
+            goalReached = dls(source, goal, visited, path, 0, depth);
+            depth++;
+        }
+        if(goalReached){
+            System.out.println("Goal reached at depth " + (depth-1) + " Path: "+path);
+        }else{
+            System.out.println("Goal not found!");
+        }
+    }
+
     public void bfs(int source, int goal){
         ArrayList<Integer> path = new ArrayList<>();
         if(bfs(source ,goal, path)){
@@ -121,16 +174,16 @@ public class Graph {
     public static void main(String[] args) {
         Graph graph = new Graph(10);
 
-        graph.addEdge(1, 8);
-        graph.addEdge(1, 5);
         graph.addEdge(1, 2);
-        graph.addEdge(8, 6);
-        graph.addEdge(8, 4);
-        graph.addEdge(8, 3);
+        graph.addEdge(1, 3);
+        graph.addEdge(2, 4);
+        graph.addEdge(2, 5);
+        graph.addEdge(3, 6);
+        graph.addEdge(3, 7);
+        graph.addEdge(4, 8);
+        graph.addEdge(4, 9);
         graph.addEdge(6, 10);
-        graph.addEdge(6, 7);
-        graph.addEdge(2, 9);
 
-        graph.dfs(1, 9);
+        graph.dfs(1, 7);
     }
 }

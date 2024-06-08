@@ -20,19 +20,19 @@ public class BFS_1 {
     }
 
     public void populate(Scanner scanner, Node root) {
-        System.out.println("Do you want to create a left child for: " + root.value);
+        System.out.println(STR."Do you want to create a left child for: \{root.value}");
         boolean left = scanner.nextBoolean();
         if (left) {
-            System.out.println("Enter the value for the left child of " + root.value);
+            System.out.println(STR."Enter the value for the left child of \{root.value}");
             int value = scanner.nextInt();
             Node leftChild = new Node(value);
             root.left = leftChild;
             populate(scanner, root.left);
         }
-        System.out.println("Do you want to create a right child for: " + root.value);
+        System.out.println(STR."Do you want to create a right child for: \{root.value}");
         boolean right = scanner.nextBoolean();
         if (right) {
-            System.out.println("Enter the value for the right child of " + root.value);
+            System.out.println(STR."Enter the value for the right child of \{root.value}");
             int value = scanner.nextInt();
             Node rightChild = new Node(value);
             root.right = rightChild;
@@ -243,7 +243,7 @@ public class BFS_1 {
             for (int i = 0; i < level - 1; i++) {
                 System.out.print("|\t\t");
             }
-            System.out.println("|------->" + node.value);
+            System.out.println(STR."|------->\{node.value}");
         } else {
             System.out.println(node.value);
         }
@@ -260,11 +260,10 @@ public class BFS_1 {
     }
 
     public boolean isCousins(Node root, int x, int y) {
-        boolean areCousins = false;
         int y_parent = -1;
-        int y_depth;
+        int y_depth = 0;
         int x_parent = -1;
-        int x_depth;
+        int x_depth = 0;
 
         Queue<Node> queue = new LinkedList<>();
         int depth = 0;
@@ -277,10 +276,41 @@ public class BFS_1 {
             y_parent = root.value;
             y_depth = depth;
         }
-        while (!queue.isEmpty() && ((x_parent == -1) || (y_parent == -1))) {
-            Node node = queue.poll();
+        while (!queue.isEmpty() && (y_parent == -1 || x_parent == -1)) {
+            int levelSize = queue.size();
+            List<Node> currentLevel = new ArrayList<>();
+            for (int i = 0; i < levelSize; i++) {
+                Node currentNode = queue.poll();
+                currentLevel.add(currentNode);
+                if (currentNode.left != null) {
+                    if(currentNode.left.value == x){
+                        x_parent = currentNode.value;
+                        x_depth = depth+1;
+                    }
+                    if(currentNode.left.value == y){
+                        y_parent = currentNode.value;
+                        y_depth = depth+1;
+                    }
+                    queue.offer(currentNode.left);
+                }
+                if (currentNode.right != null) {
+                    if(currentNode.right.value == x){
+                        x_parent = currentNode.value;
+                        x_depth = depth+1;
+                    }
+                    if(currentNode.right.value == y){
+                        y_parent = currentNode.value;
+                        y_depth = depth+1;
+                    }
+                    queue.offer(currentNode.right);
+                }
+            }
+            depth++;
         }
-        return areCousins;
+        if(x_depth == y_depth && x_parent != y_parent){
+            return true;
+        }
+        return false;
     }
 
     public Node connect(Node root) {
@@ -321,7 +351,43 @@ public class BFS_1 {
 
 
 
-    public static class Node {
+//    public Node lowestCommonAncestor(Node root, Node p, Node q){
+//        Stack<Node> stack_p = new Stack<>();
+//        lowestCommonAncestor(root, p,  stack_p);
+//
+//        Stack<Node> stack_q = new Stack<>();
+//        lowestCommonAncestor(root, q, stack_q);
+//
+//        return p;
+//    }
+
+//    public ArrayList<Node> lowestCommonAncestor(Node root, Node q){
+////        ArrayList<Node> path = new ArrayList<>();
+////        Stack<Node> stack = new Stack<>();
+////        stack.push(root);
+////
+////        while(!stack.isEmpty()){
+////
+//        }
+//    }
+
+
+
+    public boolean isSymmetric(Node root) {
+
+        return false;
+    }
+
+    public int diameterOfBinaryTree(Node root, int count) {
+        if(root == null){
+            return count;
+        }
+        int c1 = diameterOfBinaryTree(root.left, count+1);
+        int c2 = diameterOfBinaryTree(root.right, count+1);
+        return Math.max(c1, c2);
+    }
+
+    public static class Node{
         int value;
         Node left;
         Node right;
@@ -329,13 +395,15 @@ public class BFS_1 {
         public Node(int value) {
             this.value = value;
         }
+
     }
 
 
     public static void main(String[] args) {
-//        BFS_1 bfs = new BFS_1();
-//        bfs.populate(new Scanner(System.in));
+        BFS_1 bfs = new BFS_1();
+        bfs.populate(new Scanner(System.in));
 //        bfs.connect(bfs.root);
+        System.out.println(bfs.diameterOfBinaryTree(bfs.root, 0));
     }
 }
 
