@@ -1,4 +1,4 @@
-package AdvancedGraphs;
+package BitwiseOperators;
 
 public class ReverseBits {
 

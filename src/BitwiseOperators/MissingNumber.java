@@ -1,6 +1,4 @@
-package AdvancedGraphs;
-
-import java.util.Arrays;
+package BitwiseOperators;
 
 public class MissingNumber {
 
