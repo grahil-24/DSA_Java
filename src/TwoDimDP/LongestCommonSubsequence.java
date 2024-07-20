@@ -17,14 +17,14 @@ public class LongestCommonSubsequence {
         }
         return dp[str1_len][str2_len];
 
-        int[][] cache = new int[text1.length()][text2.length()];
-        for(int i = 0; i < text1.length(); i++){
-            for(int j = 0; j < text2.length(); j++){
-                cache[i][j] = -1;
-            }
-        }
-
-        return helper(text1, text2, 0, 0, cache);
+//        int[][] cache = new int[text1.length()][text2.length()];
+//        for(int i = 0; i < text1.length(); i++){
+//            for(int j = 0; j < text2.length(); j++){
+//                cache[i][j] = -1;
+//            }
+//        }
+//
+//        return helper(text1, text2, 0, 0, cache);
     }
 
     public int helper(String text1, String text2, int index1, int index2, int[][] cache) {
